@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Морський Бій - Лобі</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="lobby-page">
+    <div id="lobby-container">
+        <h2>
+            Вітаємо, <span id="lobby-username"></span>! 
+            (<span id="online-count">?</span> онлайн)
+        </h2>
+        <h3>Оберіть кімнату:</h3>
+        
+        <div id="room-list">
+            </div>
+        
+        <p id="lobby-error" class="error-message"></p>
+
+        <button id="logout-btn" class="logout-button">Вийти (на сторінку входу)</button>
+        
+        <a href="https://send.monobank.ua/jar/26GZAe7esd" target="_blank" class="donate-button">
+            Задонатити
+        </a>
+        
+        <footer class="lobby-footer">
+            <p>АВТОРИ: Садлов А.В. та Семко Д.В.</p>
+        </footer>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

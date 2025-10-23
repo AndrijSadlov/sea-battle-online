@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Морський Бій - Вхід</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="auth-page">
+
+    <h1 class="main-title">
+        Морський бій
+        <span>Онлайн</span>
+    </h1>
+    <div id="auth-container">
+        <div id="login-form">
+            <h2>Вхід</h2>
+            <input type="text" id="login-username" placeholder="Логін" required>
+            <input type="password" id="login-password" placeholder="Пароль" required>
+            <button id="login-btn">Увійти</button>
+            <p>Немає акаунта? <a href="#" id="show-register">Зареєструватись</a></p>
+        </div>
+
+        <div id="register-form" class="hidden">
+            <h2>Реєстрація</h2>
+            <input type="text" id="register-username" placeholder="Логін" required>
+            <input type="password" id="register-password" placeholder="Пароль" required>
+            <button id="register-btn">Створити акаунт</button>
+            <p>Вже є акаунт? <a href="#" id="show-login">Увійти</a></p>
+        </div>
+
+        <p id="auth-error" class="error-message"></p>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

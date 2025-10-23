@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Морський Бій - Гра</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="game-page">
+    <div id="game-container">
+        
+        <div id="game-info">
+            <h3 id="turn-status">Очікування другого гравця...</h3>
+
+            <button id="surrender-btn" class="surrender-button hidden">ЗДАТИСЬ 🏳️</button>
+            
+            <div id="timer-bar-container">
+                <div id="timer-bar"></div>
+            </div>
+            <button id="ready-btn" class="hidden">ГОТОВИЙ</button>
+        </div>
+
+        <div id="boards-container">
+            <div id="my-board-container">
+                <h4>Мій флот (<span id="my-color"></span>)</h4>
+                <div id="my-grid" class="grid"></div>
+            </div>
+            <div id="opponent-board-container">
+                <h4>Флот суперника (<span id="opponent-color"></span>)</h4>
+                <div id="opponent-grid" class="grid"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="game-over-modal" class="modal hidden">
+        <div class="modal-content">
+            <h1 id="game-over-title"></h1>
+            <p id="game-over-reason"></p>
+            <div id="score-display">
+                <h4 id="game-over-score-title">РАХУНОК</h4>
+                <h3 id="game-over-score-line"></h3>
+            </div>
+            <div class="modal-buttons">
+                <button id="play-again-btn">Грати ще</button>
+                <button id="exit-lobby-btn">Вийти в лобі</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="surrender-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Здатися?</h2>
+            <p>Ви точно хочете здатися? Це зарахується як поразка.</p>
+            <div class="modal-buttons">
+                <button id="surrender-yes-btn">Так, здатися</button>
+                <button id="surrender-no-btn">Ні, грати далі</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

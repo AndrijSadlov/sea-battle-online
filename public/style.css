@@ -1,0 +1,207 @@
+/* public/style.css - ФІНАЛЬНА ТЕМА: "МОРСЬКЕ СКЛО" */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #1E3A5F 0%, #0D1B2A 100%);
+    background-attachment: fixed; 
+    display: flex;
+    justify-content: center; /* Центрує по вертикалі */
+    align-items: center;     /* Центрує по горизонталі */
+    min-height: 100vh;
+    margin: 0;
+    color: #EAEAEA; 
+    
+    /* === ДОДАНО === */
+    flex-direction: column; /* Розташовує елементи (заголовок і форму) вертикально */
+}
+/* === 2. ЕФЕКТ "МАТОВОГО СКЛА" (ЗАМІСТЬ СІРОГО) === */
+#auth-container, #lobby-container, #game-container, .modal-content {
+    background: rgba(255, 255, 255, 0.1); /* Напівпрозорий білий */
+    backdrop-filter: blur(15px); /* Ефект розмиття (скло) */
+    -webkit-backdrop-filter: blur(15px); /* Для Safari */
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Світла рамка */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Глибша тінь */
+    
+    padding: 2rem;
+    width: 90%;
+    max-width: 800px;
+    /* Текст всередині буде світлим (успадковується від body) */
+}
+
+/* Окремо для модалки */
+.modal-content {
+    max-width: 500px;
+    padding: 2rem 3rem;
+    text-align: center;
+}
+
+
+#auth-container { max-width: 400px; }
+#auth-container h2 { text-align: center; }
+#auth-container input { 
+    width: calc(100% - 20px); 
+    padding: 10px; 
+    margin-bottom: 1rem; 
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Світла рамка */
+    border-radius: 4px; 
+    background: rgba(0, 0, 0, 0.2); /* Темний напівпрозорий фон */
+    color: #EAEAEA; /* Світлий текст вводу */
+}
+#auth-container input::placeholder {
+    color: #B0BEC5;
+}
+
+#auth-container button { width: 100%; padding: 10px; background-color: #00838F; color: white; border: none; border-radius: 4px; cursor: pointer; }
+#auth-container button:hover { background-color: #005662; }
+#auth-container p { font-size: 0.9rem; text-align: center; }
+#auth-container a { color: #4DD0E1; /* Яскравіший ціан для посилань */ text-decoration: none; cursor: pointer; }
+
+.error-message { color: #FF8A80; /* Світло-червоний */ text-align: center; font-size: 0.9rem; }
+
+#lobby-container { max-width: 500px; }
+#lobby-container h2, #lobby-container h3 { /* Тепер світлі */ }
+#room-list { display: flex; flex-direction: column; gap: 1rem; }
+.room-card { 
+    padding: 1.5rem; 
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Світла рамка */
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: all 0.2s ease;
+    background-color: rgba(0, 0, 0, 0.2); /* Темний фон картки */
+}
+.room-card:hover { border-color: #4DD0E1; background-color: rgba(0, 0, 0, 0.3); }
+.room-card.full { background-color: rgba(0, 0, 0, 0.1); cursor: not-allowed; color: #888; }
+.room-card h4 { margin: 0 0 0.5rem 0; }
+.room-status { font-size: 0.9rem; color: #B0BEC5; /* Світло-сірий текст */ }
+.room-status.playing { color: #FF8A80; }
+
+#game-info { text-align: center; margin-bottom: 1rem; }
+#game-info h3 { /* Тепер світлі */ }
+#ready-btn { padding: 10px 20px; font-size: 1.2rem; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+#ready-btn:hover { background-color: #218838; }
+#ready-btn:disabled { background-color: #ccc; }
+
+/* === 3. ЧЕРВОНИЙ ТАЙМЕР === */
+#timer-bar-container { 
+    width: 100%; 
+    height: 10px; 
+    background-color: rgba(0, 0, 0, 0.3); /* Темна "доріжка" */
+    border-radius: 5px; 
+    overflow: hidden; 
+    margin: 1rem 0; 
+}
+#timer-bar { 
+    width: 100%; 
+    height: 100%; 
+    background-color: #dc3545; /* ЧЕРВОНИЙ колір */
+    transition: width 0.5s linear; 
+}
+
+#boards-container { display: flex; justify-content: space-around; gap: 2rem; flex-wrap: wrap; }
+#boards-container h4 { /* Тепер світлі */ }
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(10, 30px); 
+    grid-template-rows: repeat(10, 30px); 
+    border: 1px solid rgba(77, 208, 225, 0.5); /* Рамка сітки - ціан */
+    width: 300px; 
+    height: 300px; 
+}
+.grid .cell { 
+    width: 30px; 
+    height: 30px; 
+    border: 1px solid rgba(77, 208, 225, 0.2); /* Рамка клітинки - ціан */
+    box-sizing: border-box; 
+    background-color: rgba(77, 208, 225, 0.1); /* Фон клітинки - легкий ціан */
+}
+#my-grid .cell.ship { background-color: #78909C; } /* Колір корабля (сіро-блакитний) */
+#opponent-grid .cell { cursor: pointer; }
+#opponent-grid .cell:hover { background-color: rgba(77, 208, 225, 0.3); }
+#opponent-grid.disabled { cursor: not-allowed; }
+#opponent-grid.disabled .cell { cursor: not-allowed; }
+#opponent-grid.disabled .cell:hover { background-color: rgba(77, 208, 225, 0.1); }
+
+.cell.miss { 
+    background-color: rgba(189, 224, 254, 0.5); /* Напівпрозорий блакитний промах */
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+.cell.miss::after { content: '•'; font-size: 1.5rem; color: #fff; /* Біла крапка */ line-height: 1; }
+
+.cell.hit { background-color: rgba(255, 205, 210, 0.7); display: flex; justify-content: center; align-items: center; position: relative; } /* Напівпрозорий червоний */
+.cell.hit::before, .cell.hit::after { content: ''; position: absolute; width: 20px; height: 3px; background-color: #B71C1C; /* Темно-червоний хрестик */ }
+.cell.hit::before { transform: rotate(45deg); }
+.cell.hit::after { transform: rotate(-45deg); }
+
+#my-color.blue, #opponent-color.blue { color: #4FC3F7; }
+#my-color.red, #opponent-color.red { color: #E57373; }
+
+.modal { position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; }
+
+#score-display { margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255, 0.2); border-bottom: 1px solid rgba(255,255,255, 0.2); padding: 1rem 0; }
+#game-over-score-title { margin: 0; font-size: 0.9rem; color: #ccc; text-transform: uppercase; letter-spacing: 1px; }
+#game-over-score-line { margin: 0.5rem 0 0 0; font-size: 1.8rem; font-weight: bold; }
+.modal-buttons { margin-top: 1.5rem; display: flex; gap: 1rem; }
+.modal-buttons button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; }
+#play-again-btn { background-color: #28a745; color: white; }
+#exit-lobby-btn { background-color: #dc3545; color: white; }
+
+.hidden { display: none; }
+
+.logout-button { width: 100%; padding: 10px; margin-top: 1.5rem; margin-bottom: 1rem; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+.logout-button:hover { background-color: #c82333; }
+.donate-button { display: block; width: 100%; box-sizing: border-box; padding: 10px; margin-top: 0.5rem; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; text-align: center; text-decoration: none; }
+.donate-button:hover { background-color: #218838; }
+.lobby-footer { text-align: center; margin-top: 2rem; font-size: 0.8rem; color: #ccc; }
+.lobby-footer p { margin: 0; }
+
+/* === ОНОВЛЕНІ СТИЛІ КНОПКИ === */
+.surrender-button {
+    display: block; 
+    width: 100%;
+    max-width: 250px; 
+    margin: 1rem auto; 
+    padding: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.surrender-button:hover {
+    background-color: #c82333;
+}
+
+/* === НОВІ СТИЛІ ДЛЯ МОДАЛЬНОГО ВІКНА ПІДТВЕРДЖЕННЯ === */
+#surrender-yes-btn {
+    background-color: #dc3545;
+    color: white;
+}
+#surrender-no-btn {
+    background-color: #6c757d;
+    color: white;
+}
+/* === СТИЛІ ДЛЯ ГОЛОВНОГО ЗАГОЛОВКА === */
+.main-title {
+    font-size: 3.5rem; /* Великий розмір */
+    font-weight: bold;
+    color: #ffffff; /* Білий колір */
+    text-shadow: 
+        0 0 10px rgba(77, 208, 225, 0.7), /* Блакитне сяйво */
+        0 0 20px rgba(0, 0, 0, 0.5); /* Темна тінь для контрасту */
+    margin-bottom: 2rem; /* Відступ до форми входу */
+    text-align: center;
+    text-transform: uppercase; /* Великі літери */
+    letter-spacing: 2px;
+    line-height: 1.1; /* Щільніший міжрядковий інтервал */
+}
+
+.main-title span {
+    color: #4DD0E1; /* Колір "ОНЛАЙН" (яскравий ціан) */
+    display: block; /* "ОНЛАЙН" буде на новому рядку */
+    font-size: 2rem; /* Трохи менший */
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(77, 208, 225, 0.7); /* Тільки сяйво */
+}
