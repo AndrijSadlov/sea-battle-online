@@ -10,10 +10,9 @@ body {
     margin: 0;
     color: #EAEAEA; 
     
-    /* === ДОДАНО === */
     flex-direction: column; /* Розташовує елементи (заголовок і форму) вертикально */
 }
-/* === 2. ЕФЕКТ "МАТОВОГО СКЛА" (ЗАМІСТЬ СІРОГО) === */
+/* === 2. ЕФЕКТ "МАТОВОГО СКЛА" === */
 #auth-container, #lobby-container, #game-container, .modal-content {
     background: rgba(255, 255, 255, 0.1); /* Напівпрозорий білий */
     backdrop-filter: blur(15px); /* Ефект розмиття (скло) */
@@ -25,7 +24,6 @@ body {
     padding: 2rem;
     width: 90%;
     max-width: 800px;
-    /* Текст всередині буде світлим (успадковується від body) */
 }
 
 /* Окремо для модалки */
@@ -42,10 +40,10 @@ body {
     width: calc(100% - 20px); 
     padding: 10px; 
     margin-bottom: 1rem; 
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Світла рамка */
+    border: 1px solid rgba(255, 255, 255, 0.3); 
     border-radius: 4px; 
-    background: rgba(0, 0, 0, 0.2); /* Темний напівпрозорий фон */
-    color: #EAEAEA; /* Світлий текст вводу */
+    background: rgba(0, 0, 0, 0.2); 
+    color: #EAEAEA; 
 }
 #auth-container input::placeholder {
     color: #B0BEC5;
@@ -54,29 +52,30 @@ body {
 #auth-container button { width: 100%; padding: 10px; background-color: #00838F; color: white; border: none; border-radius: 4px; cursor: pointer; }
 #auth-container button:hover { background-color: #005662; }
 #auth-container p { font-size: 0.9rem; text-align: center; }
-#auth-container a { color: #4DD0E1; /* Яскравіший ціан для посилань */ text-decoration: none; cursor: pointer; }
+#auth-container a { color: #4DD0E1; text-decoration: none; cursor: pointer; }
 
-.error-message { color: #FF8A80; /* Світло-червоний */ text-align: center; font-size: 0.9rem; }
+.error-message { color: #FF8A80; text-align: center; font-size: 0.9rem; }
 
 #lobby-container { max-width: 500px; }
-#lobby-container h2, #lobby-container h3 { /* Тепер світлі */ }
+#lobby-container h2, #lobby-container h3 { }
 #room-list { display: flex; flex-direction: column; gap: 1rem; }
 .room-card { 
     padding: 1.5rem; 
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Світла рамка */
+    border: 1px solid rgba(255, 255, 255, 0.2); 
     border-radius: 8px; 
     cursor: pointer; 
     transition: all 0.2s ease;
-    background-color: rgba(0, 0, 0, 0.2); /* Темний фон картки */
+    background-color: rgba(0, 0, 0, 0.2); 
+    position: relative; /* Додано для позиціонування кнопки */
 }
 .room-card:hover { border-color: #4DD0E1; background-color: rgba(0, 0, 0, 0.3); }
 .room-card.full { background-color: rgba(0, 0, 0, 0.1); cursor: not-allowed; color: #888; }
 .room-card h4 { margin: 0 0 0.5rem 0; }
-.room-status { font-size: 0.9rem; color: #B0BEC5; /* Світло-сірий текст */ }
+.room-status { font-size: 0.9rem; color: #B0BEC5; }
 .room-status.playing { color: #FF8A80; }
 
 #game-info { text-align: center; margin-bottom: 1rem; }
-#game-info h3 { /* Тепер світлі */ }
+#game-info h3 { }
 #ready-btn { padding: 10px 20px; font-size: 1.2rem; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
 #ready-btn:hover { background-color: #218838; }
 #ready-btn:disabled { background-color: #ccc; }
@@ -85,7 +84,7 @@ body {
 #timer-bar-container { 
     width: 100%; 
     height: 10px; 
-    background-color: rgba(0, 0, 0, 0.3); /* Темна "доріжка" */
+    background-color: rgba(0, 0, 0, 0.3); 
     border-radius: 5px; 
     overflow: hidden; 
     margin: 1rem 0; 
@@ -93,28 +92,28 @@ body {
 #timer-bar { 
     width: 100%; 
     height: 100%; 
-    background-color: #dc3545; /* ЧЕРВОНИЙ колір */
+    background-color: #dc3545; 
     transition: width 0.5s linear; 
 }
 
 #boards-container { display: flex; justify-content: space-around; gap: 2rem; flex-wrap: wrap; }
-#boards-container h4 { /* Тепер світлі */ }
+#boards-container h4 { }
 .grid { 
     display: grid; 
     grid-template-columns: repeat(10, 30px); 
     grid-template-rows: repeat(10, 30px); 
-    border: 1px solid rgba(77, 208, 225, 0.5); /* Рамка сітки - ціан */
+    border: 1px solid rgba(77, 208, 225, 0.5); 
     width: 300px; 
     height: 300px; 
 }
 .grid .cell { 
     width: 30px; 
     height: 30px; 
-    border: 1px solid rgba(77, 208, 225, 0.2); /* Рамка клітинки - ціан */
+    border: 1px solid rgba(77, 208, 225, 0.2); 
     box-sizing: border-box; 
-    background-color: rgba(77, 208, 225, 0.1); /* Фон клітинки - легкий ціан */
+    background-color: rgba(77, 208, 225, 0.1); 
 }
-#my-grid .cell.ship { background-color: #78909C; } /* Колір корабля (сіро-блакитний) */
+#my-grid .cell.ship { background-color: #78909C; } 
 #opponent-grid .cell { cursor: pointer; }
 #opponent-grid .cell:hover { background-color: rgba(77, 208, 225, 0.3); }
 #opponent-grid.disabled { cursor: not-allowed; }
@@ -122,15 +121,15 @@ body {
 #opponent-grid.disabled .cell:hover { background-color: rgba(77, 208, 225, 0.1); }
 
 .cell.miss { 
-    background-color: rgba(189, 224, 254, 0.5); /* Напівпрозорий блакитний промах */
+    background-color: rgba(189, 224, 254, 0.5); 
     display: flex; 
     justify-content: center; 
     align-items: center; 
 }
-.cell.miss::after { content: '•'; font-size: 1.5rem; color: #fff; /* Біла крапка */ line-height: 1; }
+.cell.miss::after { content: '•'; font-size: 1.5rem; color: #fff; line-height: 1; }
 
-.cell.hit { background-color: rgba(255, 205, 210, 0.7); display: flex; justify-content: center; align-items: center; position: relative; } /* Напівпрозорий червоний */
-.cell.hit::before, .cell.hit::after { content: ''; position: absolute; width: 20px; height: 3px; background-color: #B71C1C; /* Темно-червоний хрестик */ }
+.cell.hit { background-color: rgba(255, 205, 210, 0.7); display: flex; justify-content: center; align-items: center; position: relative; } 
+.cell.hit::before, .cell.hit::after { content: ''; position: absolute; width: 20px; height: 3px; background-color: #B71C1C; }
 .cell.hit::before { transform: rotate(45deg); }
 .cell.hit::after { transform: rotate(-45deg); }
 
@@ -156,7 +155,6 @@ body {
 .lobby-footer { text-align: center; margin-top: 2rem; font-size: 0.8rem; color: #ccc; }
 .lobby-footer p { margin: 0; }
 
-/* === ОНОВЛЕНІ СТИЛІ КНОПКИ === */
 .surrender-button {
     display: block; 
     width: 100%;
@@ -174,7 +172,6 @@ body {
     background-color: #c82333;
 }
 
-/* === НОВІ СТИЛІ ДЛЯ МОДАЛЬНОГО ВІКНА ПІДТВЕРДЖЕННЯ === */
 #surrender-yes-btn {
     background-color: #dc3545;
     color: white;
@@ -183,25 +180,126 @@ body {
     background-color: #6c757d;
     color: white;
 }
-/* === СТИЛІ ДЛЯ ГОЛОВНОГО ЗАГОЛОВКА === */
 .main-title {
-    font-size: 3.5rem; /* Великий розмір */
+    font-size: 3.5rem; 
     font-weight: bold;
-    color: #ffffff; /* Білий колір */
+    color: #ffffff; 
     text-shadow: 
-        0 0 10px rgba(77, 208, 225, 0.7), /* Блакитне сяйво */
-        0 0 20px rgba(0, 0, 0, 0.5); /* Темна тінь для контрасту */
-    margin-bottom: 2rem; /* Відступ до форми входу */
+        0 0 10px rgba(77, 208, 225, 0.7), 
+        0 0 20px rgba(0, 0, 0, 0.5); 
+    margin-bottom: 2rem; 
     text-align: center;
-    text-transform: uppercase; /* Великі літери */
+    text-transform: uppercase; 
     letter-spacing: 2px;
-    line-height: 1.1; /* Щільніший міжрядковий інтервал */
+    line-height: 1.1; 
 }
 
 .main-title span {
-    color: #4DD0E1; /* Колір "ОНЛАЙН" (яскравий ціан) */
-    display: block; /* "ОНЛАЙН" буде на новому рядку */
-    font-size: 2rem; /* Трохи менший */
+    color: #4DD0E1; 
+    display: block; 
+    font-size: 2rem; 
     letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(77, 208, 225, 0.7); /* Тільки сяйво */
+    text-shadow: 0 0 10px rgba(77, 208, 225, 0.7); 
+} 
+
+/* === СТИЛІ ДЛЯ СПОСТЕРІГАЧІВ (ЛОБІ) === */
+.spectate-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.spectate-btn:hover {
+  background: #4DD0E1;
+  border-color: #4DD0E1;
+}
+
+/* === СТИЛІ ДЛЯ СПОСТЕРІГАЧІВ (ГРА) === */
+#spectator-info {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+#spectator-info span {
+  font-weight: bold;
+  color: white;
+}
+
+/* Блокуємо кліки по сітці для спостерігачів */
+.grid.spectator-grid {
+  cursor: not-allowed;
+}
+.grid.spectator-grid .cell:hover {
+  background-color: rgba(77, 208, 225, 0.1); /* Стандартний фон */
+  cursor: not-allowed;
+}
+
+/* Панель емоцій */
+.emoji-palette {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+.emoji-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: all 0.2s ease;
+}
+.emoji-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+.emoji-btn.sent {
+  background: #28a745;
+  transform: scale(0.9);
+}
+
+/* Контейнер для спливаючих емоцій */
+#emoji-toast-container {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.emoji-toast {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  animation: fadeIn 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+.emoji-toast span {
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+.emoji-toast.fade-out {
+  animation: fadeOut 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-20px); }
 }
