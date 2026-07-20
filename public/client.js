@@ -466,15 +466,19 @@ function initGamePage() {
             }
         });
 
-        socket.on('nextTurn', nextPlayer => {
-            turnStatus.textContent = `Хід: ${nextPlayer}`;
-            // Для спостерігача також показуємо таймер
-            startTimer(30); 
-        });
-        
-        socket.on('turnSkipped', (data) => {
-            if (turnStatus) turnStatus.textContent = `Гравець ${data.skippedPlayer} пропустив хід!`;
-        });
+       socket.on('nextTurn', nextPlayer => {
+            window.myTurn = (nextPlayer === username);
+            if (window.myTurn) {
+                turnStatus.textContent = 'ВАШ ХІД (30 сек)';
+                opponentGrid.classList.remove('disabled');
+            } else {
+                turnStatus.textContent = `Хід суперника: ${nextPlayer}`;
+                opponentGrid.classList.add('disabled');
+            }
+            
+            // Запускаємо таймер для обох гравців!
+            startTimer(30); 
+        });
 
         // Кінець гри для спостерігача
         socket.on('gameOver', data => {
@@ -600,31 +604,40 @@ function markSunkShip(grid, shipPositions) {
     });
 }
 const timerBar = document.getElementById('timer-bar');
+// --- ФУНКЦІЇ ТАЙМЕРА ---
 function startTimer(seconds) {
+    const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // 1. Миттєво робимо смужку повною (100%) без анімації
+    // 1. Вимикаємо анімацію і робимо смужку повною (100%)
     timerBar.style.transition = 'none';
     timerBar.style.width = '100%';
     
-    // 2. Примушуємо браузер застосувати ці зміни прямо зараз (reflow)
-    void timerBar.offsetWidth; 
-    
-    // 3. Вмикаємо анімацію на 30 секунд і зменшуємо ширину до 0%
-    // Зменшення ширини автоматично виглядає як рух "справа наліво"
-    timerBar.style.transition = `width ${seconds}s linear`;
-    timerBar.style.width = '0%';
+    // 2. Робимо мікро-паузу (50 мілісекунд), щоб браузер гарантовано відмалював 100%
+    setTimeout(() => {
+        // 3. Вмикаємо плавне зменшення до 0% за вказаний час (30 секунд)
+        timerBar.style.transition = `width ${seconds}s linear`;
+        timerBar.style.width = '0%';
+    }, 50);
 }
+
 function stopTimer() {
-    if (!timerBar) return;
-     if(window.getComputedStyle){
-        const currentWidth = window.getComputedStyle(timerBar).width;
-        timerBar.style.transition = 'none';
-        timerBar.style.width = currentWidth;
-    }
+    const timerBar = document.getElementById('timer-bar');
+    if (!timerBar) return;
+    
+    // Фіксуємо поточну ширину, щоб зупинити анімацію на місці
+    if (window.getComputedStyle) {
+        const currentWidth = window.getComputedStyle(timerBar).width;
+        timerBar.style.transition = 'none';
+        timerBar.style.width = currentWidth;
+    }
 }
+
 function resetTimer() {
-    if (!timerBar) return;
-    timerBar.style.transition = 'none';
-    timerBar.style.width = '100%';
+    const timerBar = document.getElementById('timer-bar');
+    if (!timerBar) return;
+    
+    // Просто повертаємо повну червону смужку
+    timerBar.style.transition = 'none';
+    timerBar.style.width = '100%';
 }
