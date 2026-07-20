@@ -92,14 +92,9 @@ body {
 #timer-bar { 
     width: 100%; 
     height: 100%; 
-    background-color: #dc3545; 
-    /* Ми видалили transition, тепер тут буде працювати animation */
-}
-
-/* Створюємо правило анімації: від 100% до 0% */
-@keyframes shrinkTimer {
-    from { width: 100%; }
-    to { width: 0%; }
+    background-color: #dc3545; /* Червоний колір */
+    transform-origin: left; /* Лівий край стоїть на місці, правий рухається вліво */
+    will-change: transform; /* Підказка браузеру для максимальної плавності */
 }
 
 #boards-container { display: flex; justify-content: space-around; gap: 2rem; flex-wrap: wrap; }

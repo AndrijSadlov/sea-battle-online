@@ -604,37 +604,40 @@ function markSunkShip(grid, shipPositions) {
     });
 }
 const timerBar = document.getElementById('timer-bar');
-// --- НОВІ ФУНКЦІЇ ТАЙМЕРА (ЧЕРЕЗ CSS ANIMATION) ---
+// --- ІДЕАЛЬНИЙ ТАЙМЕР (ЧЕРЕЗ TRANSFORM) ---
 function startTimer(seconds) {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // 1. Повністю скидаємо будь-яку попередню анімацію
-    timerBar.style.animation = 'none';
-    timerBar.style.width = '100%';
+    // 1. Вимикаємо анімацію і ставимо масштаб 100%
+    timerBar.style.transition = 'none';
+    timerBar.style.transform = 'scaleX(1)';
     
-    // 2. Примусовий Reflow (щоб браузер застосував скидання)
+    // 2. Примусовий Reflow
     void timerBar.offsetWidth;
     
-    // 3. Запускаємо CSS-анімацію. 
-    // forwards означає, що після закінчення смужка залишиться на 0%
-    timerBar.style.animation = `shrinkTimer ${seconds}s linear forwards`;
-    timerBar.style.animationPlayState = 'running';
+    // 3. Вмикаємо анімацію зменшення до 0%
+    timerBar.style.transition = `transform ${seconds}s linear`;
+    timerBar.style.transform = 'scaleX(0)';
 }
 
 function stopTimer() {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // Просто ставимо анімацію на паузу там, де вона зараз є
-    timerBar.style.animationPlayState = 'paused';
+    // Отримуємо поточний розмір і "заморожуємо" смужку на місці
+    if (window.getComputedStyle) {
+        const currentTransform = window.getComputedStyle(timerBar).transform;
+        timerBar.style.transition = 'none';
+        timerBar.style.transform = currentTransform !== 'none' ? currentTransform : 'scaleX(0)';
+    }
 }
 
 function resetTimer() {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // Скидаємо анімацію і повертаємо повну ширину
-    timerBar.style.animation = 'none';
-    timerBar.style.width = '100%';
+    // Миттєво повертаємо повну червону смужку
+    timerBar.style.transition = 'none';
+    timerBar.style.transform = 'scaleX(1)';
 }
