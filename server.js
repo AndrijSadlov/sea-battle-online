@@ -76,13 +76,16 @@ io.on('connection', (socket) => {
             socket.disconnect(); return;
         }
         
-        // === ФІКС ФАНТОМНОГО ПІДКЛЮЧЕННЯ НА RENDER ===
+        // === ПОКРАЩЕНИЙ ФІКС ФАНТОМНОГО ПІДКЛЮЧЕННЯ ===
         if (activeSockets.has(username)) {
             const oldSocketId = activeSockets.get(username);
             const oldSocket = io.sockets.sockets.get(oldSocketId);
-            // Якщо старий сокет дійсно існує і це не поточний клієнт, відключаємо його примусово
+            
             if (oldSocket && oldSocket.id !== socket.id) {
                 console.log(`Killing phantom socket for ${username}`);
+                // ВАЖЛИВО: видаляємо зі списку ДО того, як відключити, 
+                // щоб обробник 'disconnect' старого сокета не видалив новий запис
+                activeSockets.delete(username); 
                 oldSocket.disconnect(true);
             }
         }
