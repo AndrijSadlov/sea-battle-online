@@ -610,35 +610,32 @@ function startTimer(seconds) {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // 1. Зупиняємо попередній таймер, якщо він був
     if (timerAnimationId) cancelAnimationFrame(timerAnimationId);
     
-    // 2. Очищаємо всі можливі CSS-анімації, щоб вони не заважали
+    // ЖОРСТКО задаємо стилі через JS (щоб ігнорувати кеш CSS)
+    timerBar.style.display = 'block';
+    timerBar.style.height = '100%';
+    timerBar.style.backgroundColor = '#dc3545';
     timerBar.style.transition = 'none';
     timerBar.style.transform = 'none';
     timerBar.style.animation = 'none';
     
-    // 3. Засікаємо час
     const startTime = Date.now();
-    const duration = seconds * 1000; // переводимо в мілісекунди
+    const duration = seconds * 1000;
     
-    // 4. Функція, яка малює кожен кадр
     function update() {
         const elapsed = Date.now() - startTime;
         let percentage = 100 - ((elapsed / duration) * 100);
         
         if (percentage < 0) percentage = 0;
         
-        // Жорстко задаємо ширину у відсотках
         timerBar.style.width = percentage + '%';
         
-        // Якщо час ще є — замовляємо наступний кадр
         if (percentage > 0) {
             timerAnimationId = requestAnimationFrame(update);
         }
     }
     
-    // Запускаємо цикл
     timerAnimationId = requestAnimationFrame(update);
 }
 
