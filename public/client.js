@@ -298,18 +298,18 @@ function initGamePage() {
             turnStatus.textContent = `Гру почато! Хід: ${firstPlayer}`;
         });
 
-        socket.on('nextTurn', nextPlayer => {
-            window.myTurn = (nextPlayer === username);
-            if (window.myTurn) {
-                turnStatus.textContent = 'ВАШ ХІД (30 сек)';
-                opponentGrid.classList.remove('disabled');
-                startTimer(30);
-            } else {
-                turnStatus.textContent = `Хід суперника: ${nextPlayer}`;
-                opponentGrid.classList.add('disabled');
-                resetTimer();
-            }
-        });
+       socket.on('nextTurn', nextPlayer => {
+            window.myTurn = (nextPlayer === username);
+            if (window.myTurn) {
+                turnStatus.textContent = 'ВАШ ХІД (30 сек)';
+                opponentGrid.classList.remove('disabled');
+            } else {
+                turnStatus.textContent = `Хід суперника: ${nextPlayer}`;
+                opponentGrid.classList.add('disabled');
+            }
+            // ВАЖЛИВО: Запускаємо таймер для обох гравців, винісши його за межі if/else!
+            startTimer(30); 
+        });
 
         socket.on('turnSkipped', (data) => {
             if (turnStatus) turnStatus.textContent = `Гравець ${data.skippedPlayer} пропустив хід!`;
@@ -601,15 +601,19 @@ function markSunkShip(grid, shipPositions) {
 }
 const timerBar = document.getElementById('timer-bar');
 function startTimer(seconds) {
-    if (!timerBar) return;
-    timerBar.style.transition = 'none';
-    timerBar.style.width = '100%';
-    setTimeout(() => {
-        if(timerBar){ 
-             timerBar.style.transition = `width ${seconds}s linear`;
-             timerBar.style.width = '0%';
-        }
-    }, 50);
+    if (!timerBar) return;
+    
+    // 1. Миттєво робимо смужку повною (100%) без анімації
+    timerBar.style.transition = 'none';
+    timerBar.style.width = '100%';
+    
+    // 2. Примушуємо браузер застосувати ці зміни прямо зараз (reflow)
+    void timerBar.offsetWidth; 
+    
+    // 3. Вмикаємо анімацію на 30 секунд і зменшуємо ширину до 0%
+    // Зменшення ширини автоматично виглядає як рух "справа наліво"
+    timerBar.style.transition = `width ${seconds}s linear`;
+    timerBar.style.width = '0%';
 }
 function stopTimer() {
     if (!timerBar) return;
