@@ -604,41 +604,37 @@ function markSunkShip(grid, shipPositions) {
     });
 }
 const timerBar = document.getElementById('timer-bar');
+// --- НОВІ ФУНКЦІЇ ТАЙМЕРА (ЧЕРЕЗ CSS ANIMATION) ---
 function startTimer(seconds) {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // 1. Вимикаємо анімацію і миттєво ставимо ширину 100%
-    timerBar.style.transition = 'none';
+    // 1. Повністю скидаємо будь-яку попередню анімацію
+    timerBar.style.animation = 'none';
     timerBar.style.width = '100%';
     
-    // 2. МАГІЯ (Примусовий Reflow): 
-    // Читання властивості offsetWidth змушує браузер зупинитися і 
-    // фізично застосувати 100% ширини ПРЯМО ЗАРАЗ, до виконання наступних рядків.
+    // 2. Примусовий Reflow (щоб браузер застосував скидання)
     void timerBar.offsetWidth;
     
-    // 3. Тепер вмикаємо анімацію і задаємо цільову ширину 0%
-    timerBar.style.transition = `width ${seconds}s linear`;
-    timerBar.style.width = '0%';
+    // 3. Запускаємо CSS-анімацію. 
+    // forwards означає, що після закінчення смужка залишиться на 0%
+    timerBar.style.animation = `shrinkTimer ${seconds}s linear forwards`;
+    timerBar.style.animationPlayState = 'running';
 }
 
 function stopTimer() {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // Фіксуємо поточну ширину, щоб зупинити анімацію на місці
-    if (window.getComputedStyle) {
-        const currentWidth = window.getComputedStyle(timerBar).width;
-        timerBar.style.transition = 'none';
-        timerBar.style.width = currentWidth;
-    }
+    // Просто ставимо анімацію на паузу там, де вона зараз є
+    timerBar.style.animationPlayState = 'paused';
 }
 
 function resetTimer() {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // Просто повертаємо повну червону смужку
-    timerBar.style.transition = 'none';
+    // Скидаємо анімацію і повертаємо повну ширину
+    timerBar.style.animation = 'none';
     timerBar.style.width = '100%';
 }
