@@ -607,12 +607,17 @@ function markSunkShip(grid, shipPositions) {
 let timerAnimationId = null;
 
 function startTimer(seconds) {
+    // МАЯЧОК: Виводимо повідомлення в консоль браузера
+    console.log("🚀 ЗАПУСК ТАЙМЕРА НА", seconds, "СЕКУНД!"); 
+    
     const timerBar = document.getElementById('timer-bar');
-    if (!timerBar) return;
+    if (!timerBar) {
+        console.error("❌ ПОМИЛКА: Елемент timer-bar не знайдено!");
+        return;
+    }
     
     if (timerAnimationId) cancelAnimationFrame(timerAnimationId);
     
-    // ЖОРСТКО задаємо стилі через JS (щоб ігнорувати кеш CSS)
     timerBar.style.display = 'block';
     timerBar.style.height = '100%';
     timerBar.style.backgroundColor = '#dc3545';
