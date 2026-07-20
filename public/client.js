@@ -603,41 +603,56 @@ function markSunkShip(grid, shipPositions) {
         });
     });
 }
-const timerBar = document.getElementById('timer-bar');
-// --- ІДЕАЛЬНИЙ ТАЙМЕР (ЧЕРЕЗ TRANSFORM) ---
+// --- ЯДЕРНИЙ ВАРІАНТ ТАЙМЕРА (requestAnimationFrame) ---
+let timerAnimationId = null;
+
 function startTimer(seconds) {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // 1. Вимикаємо анімацію і ставимо масштаб 100%
+    // 1. Зупиняємо попередній таймер, якщо він був
+    if (timerAnimationId) cancelAnimationFrame(timerAnimationId);
+    
+    // 2. Очищаємо всі можливі CSS-анімації, щоб вони не заважали
     timerBar.style.transition = 'none';
-    timerBar.style.transform = 'scaleX(1)';
+    timerBar.style.transform = 'none';
+    timerBar.style.animation = 'none';
     
-    // 2. Примусовий Reflow
-    void timerBar.offsetWidth;
+    // 3. Засікаємо час
+    const startTime = Date.now();
+    const duration = seconds * 1000; // переводимо в мілісекунди
     
-    // 3. Вмикаємо анімацію зменшення до 0%
-    timerBar.style.transition = `transform ${seconds}s linear`;
-    timerBar.style.transform = 'scaleX(0)';
+    // 4. Функція, яка малює кожен кадр
+    function update() {
+        const elapsed = Date.now() - startTime;
+        let percentage = 100 - ((elapsed / duration) * 100);
+        
+        if (percentage < 0) percentage = 0;
+        
+        // Жорстко задаємо ширину у відсотках
+        timerBar.style.width = percentage + '%';
+        
+        // Якщо час ще є — замовляємо наступний кадр
+        if (percentage > 0) {
+            timerAnimationId = requestAnimationFrame(update);
+        }
+    }
+    
+    // Запускаємо цикл
+    timerAnimationId = requestAnimationFrame(update);
 }
 
 function stopTimer() {
-    const timerBar = document.getElementById('timer-bar');
-    if (!timerBar) return;
-    
-    // Отримуємо поточний розмір і "заморожуємо" смужку на місці
-    if (window.getComputedStyle) {
-        const currentTransform = window.getComputedStyle(timerBar).transform;
-        timerBar.style.transition = 'none';
-        timerBar.style.transform = currentTransform !== 'none' ? currentTransform : 'scaleX(0)';
+    if (timerAnimationId) {
+        cancelAnimationFrame(timerAnimationId);
+        timerAnimationId = null;
     }
 }
 
 function resetTimer() {
+    stopTimer();
     const timerBar = document.getElementById('timer-bar');
-    if (!timerBar) return;
-    
-    // Миттєво повертаємо повну червону смужку
-    timerBar.style.transition = 'none';
-    timerBar.style.transform = 'scaleX(1)';
+    if (timerBar) {
+        timerBar.style.width = '100%';
+    }
 }
