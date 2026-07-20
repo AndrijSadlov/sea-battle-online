@@ -604,21 +604,22 @@ function markSunkShip(grid, shipPositions) {
     });
 }
 const timerBar = document.getElementById('timer-bar');
-// --- ФУНКЦІЇ ТАЙМЕРА ---
 function startTimer(seconds) {
     const timerBar = document.getElementById('timer-bar');
     if (!timerBar) return;
     
-    // 1. Вимикаємо анімацію і робимо смужку повною (100%)
+    // 1. Вимикаємо анімацію і миттєво ставимо ширину 100%
     timerBar.style.transition = 'none';
     timerBar.style.width = '100%';
     
-    // 2. Робимо мікро-паузу (50 мілісекунд), щоб браузер гарантовано відмалював 100%
-    setTimeout(() => {
-        // 3. Вмикаємо плавне зменшення до 0% за вказаний час (30 секунд)
-        timerBar.style.transition = `width ${seconds}s linear`;
-        timerBar.style.width = '0%';
-    }, 50);
+    // 2. МАГІЯ (Примусовий Reflow): 
+    // Читання властивості offsetWidth змушує браузер зупинитися і 
+    // фізично застосувати 100% ширини ПРЯМО ЗАРАЗ, до виконання наступних рядків.
+    void timerBar.offsetWidth;
+    
+    // 3. Тепер вмикаємо анімацію і задаємо цільову ширину 0%
+    timerBar.style.transition = `width ${seconds}s linear`;
+    timerBar.style.width = '0%';
 }
 
 function stopTimer() {
